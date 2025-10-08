@@ -8,7 +8,7 @@
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
     "strict": true,
-    "noImplicitAny": true ,
+    "noImplicitAny": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
@@ -20,13 +20,7 @@
     "paths": {
       "@yellowbook/config": ["libs/config/src/index.ts"],
       "@yellowbook/contract": ["libs/contract/src/index.ts"]
-    },
+    }
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "apps/web/specs/**" 
-  ]
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.spec.tsx", "apps/web/specs/**"]
 }

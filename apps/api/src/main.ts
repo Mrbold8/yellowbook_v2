@@ -5,7 +5,6 @@ import { YellowBookList, YellowBookEntry, assertYellowBookList } from '@yellowbo
 
 import { prisma } from './db';
 
-
 const app = express();
 app.use(cors({ origin: true }));
 app.use(express.json());
@@ -40,8 +39,7 @@ const toEntry = (r: Row): YellowBookEntry => ({
 
   rating: r.rating ?? undefined,
   reviewCount: r.reviewCount,
-  priceLevel:
-    (r.priceLevel as unknown as YellowBookEntry['priceLevel']) ?? undefined,
+  priceLevel: (r.priceLevel as unknown as YellowBookEntry['priceLevel']) ?? undefined,
 
   createdAt: r.createdAt.toISOString(),
   updatedAt: r.updatedAt.toISOString(),
@@ -63,7 +61,7 @@ app.get('/yellow-books', async (_req: Request, res: Response) => {
   }
 });
 
-app.get('/yellow-books/:slug', async (req: Request<{ slug: string }>, res:Response) => {
+app.get('/yellow-books/:slug', async (req: Request<{ slug: string }>, res: Response) => {
   try {
     const row = await prisma.yellowBook.findUnique({ where: { slug: req.params.slug } });
     if (!row) return res.status(404).json({ error: 'Not found' });
