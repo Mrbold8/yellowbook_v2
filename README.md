@@ -2,12 +2,13 @@
 
 Улаанбаатарын бизнесийн лавлах — **Next.js (App Router)** frontend + **Express API** + **shared Zod contract**, **Nx** болон **pnpm** -р удирдана.
 
-> Rubric coverage / Шалгуур хангасан зүйлс  
-> - ESLint (Flat Config, ESLint 9) + Prettier + **TypeScript `--noEmit`**  
-> - Nx **affected** CI (GitHub Actions)  
-> - **Shared contract** (Zod) API ба Web -д хоёуланд нь ашиглагдана  
-> - Prisma model, migration, **≥5 seed**  
-> - API `GET /yellow-books` ба Next.js дээр render 
+> Rubric coverage / Шалгуур хангасан зүйлс
+>
+> - ESLint (Flat Config, ESLint 9) + Prettier + **TypeScript `--noEmit`**
+> - Nx **affected** CI (GitHub Actions)
+> - **Shared contract** (Zod) API ба Web -д хоёуланд нь ашиглагдана
+> - Prisma model, migration, **≥5 seed**
+> - API `GET /yellow-books` ба Next.js дээр render
 
 ---
 
@@ -47,45 +48,54 @@ tsconfig.base.json
 
 ## Quick Start (Local)
 
-1) **Dependencies суулгах**
+1. **Dependencies суулгах**
+
 ```bash
 pnpm install
 ```
 
-2) **(First time) Approve builds / Эхний удаа build зөвшөөрөх (pnpm v10)**
+2. **(First time) Approve builds / Эхний удаа build зөвшөөрөх (pnpm v10)**
+
 ```bash
 pnpm approve-builds
 # 'a' дарж бүгдийг сонгоод Enter дарна
 ```
 
-3) **Generate Prisma Client / Prisma client үүсгэх**
+3. **Generate Prisma Client / Prisma client үүсгэх**
+
 ```bash
 pnpm exec prisma generate
 ```
+
 > Prisma schema нь **`apps/api/prisma/schema.prisma`** path -д байрлана (package.json -д заасан).
 
-4) **Create `.env` / Орчны хувьсагч**
+4. **Create `.env` / Орчны хувьсагч**
+
 ```bash
 cp .env.example .env
 ```
 
-5) **Run Postgres (Docker жишээ) / Postgres ажиллуулах**
+5. **Run Postgres (Docker жишээ) / Postgres ажиллуулах**
+
 ```bash
 docker run --name yellowbook-pg -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:16
 ```
 
-6) **Migrate & Seed**
+6. **Migrate & Seed**
+
 ```bash
 pnpm exec prisma migrate dev
 pnpm exec ts-node apps/api/prisma/seed.ts
 ```
 
-7) **Start API & Web (2 терминал) / API ба Web ажиллуулах**
+7. **Start API & Web (2 терминал) / API ба Web ажиллуулах**
+
 ```bash
 pnpm nx serve api
 pnpm nx serve web
 ```
-- API: http://localhost:4000 ( `API_PORT`-оор тохиргоотой )  
+
+- API: http://localhost:4000 ( `API_PORT`-оор тохиргоотой )
 - Web: http://localhost:3000
 
 ---
@@ -111,6 +121,7 @@ API_PORT=4000
 - **Web**: imports the inferred types from the same schema to ensure compile-time safety.
 
 **Шаардлагатай талбарууд / Required fields:**
+
 - `id`, `slug`, `name`, `category`
 - `address` `{ city, district, street, building?, postalCode? }`
 - `location` `{ lat, lng }`
@@ -127,6 +138,7 @@ API_PORT=4000
 - Seed: **`apps/api/prisma/seed.ts`** — **≥5 бодит** жишээ listings.
 
 > Schema өөрчилбөл:
+
 ```bash
 pnpm exec prisma migrate dev -n "<msg>"
 pnpm exec prisma generate
@@ -139,18 +151,22 @@ pnpm exec prisma generate
 Base URL (local): `http://localhost:4000`
 
 ### `GET /health`
-- **EN:** Simple health check `{ ok: true }`  
+
+- **EN:** Simple health check `{ ok: true }`
 - **MN:** Сервис ажиллаж байгаа эсэхийг шалгана.
 
 ### `GET /yellow-books`
-- **EN:** Returns Zod-validated `YellowBookEntry[]`, `Cache-Control: no-store`  
+
+- **EN:** Returns Zod-validated `YellowBookEntry[]`, `Cache-Control: no-store`
 - **MN:** Zod -оор баталгаажсан жагсаалт буцаана, no-cache.
 
 ### `GET /yellow-books/:slug`
-- **EN:** Single entry by slug (404 if not found), same row→contract mapper  
+
+- **EN:** Single entry by slug (404 if not found), same row→contract mapper
 - **MN:** Slug-аар нэг entry буцаана, олдохгүй бол 404.
 
 **Security / Аюулгүй байдал**
+
 - CORS (`origin: true`)
 - Error handling: 400/404/500
 
@@ -158,8 +174,8 @@ Base URL (local): `http://localhost:4000`
 
 ## Web (Next.js App Router)
 
-- **`/yellow-books`** — API -аас fetch хийж жагсаалт рендэрлэнэ (no hardcoded data)  
-- **`/yellow-books/[slug]`** — дэлгэрэнгүй, жижиг **map island** үзүүлнэ  
+- **`/yellow-books`** — API -аас fetch хийж жагсаалт рендэрлэнэ (no hardcoded data)
+- **`/yellow-books/[slug]`** — дэлгэрэнгүй, жижиг **map island** үзүүлнэ
 
 ---
 
@@ -177,6 +193,7 @@ pnpm typecheck
 ```
 
 **Notes / Тэмдэглэл**
+
 - ESLint үндсэн тохиргоо (config): **`eslint.base.mjs`**, project тус бүрт `eslint.config.mjs` энэ файлыг импортоор ашиглана.
 - React/Next дүрмүүд зөвхөн `apps/web/**`-д үйлчилнэ.
 - Node config файлууд танигдана (`next.config.js`, `tailwind.config.js`, …).
@@ -189,23 +206,25 @@ pnpm typecheck
 Файл: **`.github/workflows/ci.yml`**
 
 Runs on PRs & pushes:
+
 - **Nx affected lint** (PR), **run-many lint** (push)
 - **Prettier check**
 - **TypeScript `--noEmit`**
 - **Prisma generate** (monoreпо schema, DB шаардлагагүй)
 
 Caching:
+
 - `pnpm/action-setup@v4` + `actions/setup-node@v4 (cache: pnpm)`
 
 ---
 
 ## Design Choices / Шийдлийн тайлбар
 
-- **Single Source of Truth (Zod)** — гэрээ `libs/contract`-д байрлана → API/Web зөрөхөөс сэргийлнэ.  
-- **Runtime Validation** — API validates responses with Zod; web trusts the contract types.  
-- **Nx for Scale** — clear boundaries, fast affected commands, CI integration. 
-- **App Router** — simpler data islands, server-first rendering.  
-- **Prisma** — ойлгомжтой schema, strong TS types, ergonomic seeding.  
+- **Single Source of Truth (Zod)** — гэрээ `libs/contract`-д байрлана → API/Web зөрөхөөс сэргийлнэ.
+- **Runtime Validation** — API validates responses with Zod; web trusts the contract types.
+- **Nx for Scale** — clear boundaries, fast affected commands, CI integration.
+- **App Router** — simpler data islands, server-first rendering.
+- **Prisma** — ойлгомжтой schema, strong TS types, ergonomic seeding.
 - **A11y & Performance** — Next-ийн сануулгуудыг warning болгон CI -г таслахгүйгээр сайжруулах чиглэл өгдөг.
 
 ---
@@ -240,10 +259,10 @@ Caching:
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc -p tsconfig.base.json --noEmit",
-    "gen:prisma": "prisma generate"
+    "gen:prisma": "prisma generate",
   },
   "prisma": {
-    "schema": "apps/api/prisma/schema.prisma"
-  }
+    "schema": "apps/api/prisma/schema.prisma",
+  },
 }
 ```
