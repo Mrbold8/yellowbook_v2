@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "prisma": {
-    "seed": "tsx apps/api/prisma/seed.ts"
+    "seed": "tsx apps/api/prisma/seed.ts",
+    "schema": "apps/api/prisma/schema.prisma"
   },
   "scripts": {
+    "gen:prisma": "prisma generate",
     "lint": "nx run-many -t lint",
     "format:check": "prettier --check .",
     "db:seed": "prisma db seed --schema=apps/api/prisma/schema.prisma",

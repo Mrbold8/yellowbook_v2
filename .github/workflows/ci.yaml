@@ -34,17 +34,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Approve build scripts non-interactively (Prisma, etc.)
-      - name: Approve build scripts
-        run: yes | pnpm approve-builds
-
       # Generate Prisma client if schema exists (no DB needed)
       - name: Generate Prisma client
         if: ${{ hashFiles('prisma/schema.prisma') != '' }}
         env:
           # Dummy URL is fine for generate; no DB connection happens
           DATABASE_URL: 'postgresql://user:pass@localhost:5432/db?schema=public'
-        run: pnpm exec prisma generate
+        run: pnpm exec prisma generate --schema apps/api/prisma/schema.prisma
 
       # Compute base/head for PRs only; fallback to run-many on pushes (first commit safe)
       - name: Lint (affected on PR, run-many on push)
