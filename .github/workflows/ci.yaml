@@ -43,7 +43,7 @@ jobs:
         if: ${{ hashFiles('prisma/schema.prisma') != '' }}
         env:
           # Dummy URL is fine for generate; no DB connection happens
-          DATABASE_URL: "postgresql://user:pass@localhost:5432/db?schema=public"
+          DATABASE_URL: 'postgresql://user:pass@localhost:5432/db?schema=public'
         run: pnpm exec prisma generate
 
       # Compute base/head for PRs only; fallback to run-many on pushes (first commit safe)
