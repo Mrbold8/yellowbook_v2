@@ -37,7 +37,7 @@ jobs:
       # If your repo uses Prisma types (@prisma/client) during typecheck,
       # pnpm may block postinstall builds; approve & generate client.
       - name: Approve build scripts (Prisma etc.)
-        run: pnpm approve-builds -y
+        run: yes | pnpm approve-builds
 
       - name: Generate Prisma client (if schema exists)
         if: ${{ hashFiles('prisma/schema.prisma') != '' }}
