@@ -1,4 +1,4 @@
-# YellowBook (Nx Monorepo) — English & Монгол
+# YellowBook (Nx Monorepo)
 
 Улаанбаатарын бизнесийн лавлах — **Next.js (App Router)** frontend + **Express API** + **shared Zod contract**, **Nx** болон **pnpm** -р удирдана.
 
