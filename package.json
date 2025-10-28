@@ -6,6 +6,7 @@
     "seed": "tsx apps/api/prisma/seed.ts",
     "schema": "apps/api/prisma/schema.prisma"
   },
+  "type": "module",
   "scripts": {
     "gen:prisma": "prisma generate",
     "lint": "nx run-many -t lint",

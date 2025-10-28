@@ -1,8 +1,11 @@
 // apps/web/app/yellow-books/page.tsx
+import Image from 'next/image';
 import Link from 'next/link';
+
 import { fetchYellowBooks } from '../../lib/yellowbook';
 
 export const dynamic = 'force-dynamic';
+const fallbackPhoto = 'https://placehold.co/96x96?text=No+Photo';
 
 export default async function YellowBooksPage() {
   const list = await fetchYellowBooks();
@@ -18,10 +21,13 @@ export default async function YellowBooksPage() {
         {list.map((item) => (
           <li key={item.slug} className="rounded-2xl border p-4 hover:shadow">
             <div className="flex items-start gap-4">
-              <img
-                src={item.photos?.[0] ?? 'https://placehold.co/96x96?text=No+Photo'}
-                alt={`${item.name} photo`}
-                className="w-24 h-24 object-cover rounded-xl"
+              <Image
+                src={(item.photos?.[0] as string | undefined) ?? fallbackPhoto}
+                alt={item.name}
+                width={96}
+                height={96}
+                className="h-24 w-24 rounded-xl object-cover"
+                unoptimized
               />
               <div className="flex-1">
                 <h2 className="text-lg font-semibold">

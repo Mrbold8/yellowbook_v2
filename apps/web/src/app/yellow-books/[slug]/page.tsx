@@ -1,6 +1,10 @@
 // apps/web/app/yellow-books/[slug]/page.tsx
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
+
 import { fetchYellowBook } from '../../../lib/yellowbook';
+
+const fallbackPhoto = 'https://placehold.co/600x400?text=No+Photo';
 
 type Props = { params: { slug: string } };
 
@@ -86,13 +90,20 @@ export default async function YellowBookDetail({ params }: Props) {
               Зургууд
             </h2>
             <div className="grid grid-cols-2 gap-3 mt-2">
-              {item.photos.map((p, i) => (
-                <img
-                  key={i}
-                  src={p}
-                  alt={`${item.name} photo ${i + 1}`}
-                  className="rounded-xl object-cover h-40 w-full"
-                />
+              {item.photos.map((photoUrl, index) => (
+                <div
+                  key={photoUrl ?? `photo-${index}`}
+                  className="relative h-40 w-full overflow-hidden rounded-xl"
+                >
+                  <Image
+                    src={photoUrl ?? fallbackPhoto}
+                    alt={`${item.name} ${index + 1}`}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
               ))}
             </div>
           </section>
