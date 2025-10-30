@@ -1,8 +1,10 @@
-// apps/web/app/yellow-books/[slug]/page.tsx
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
-import { fetchYellowBook } from '../../../lib/yellowbook';
+import { fetchYellowBook, fetchYellowBooks } from '../../../lib/yellowbook';
+import { YELLOW_BOOKS_TAG } from '../../../lib/cache-tags';
+
+export const dynamic = 'error'; // энэ хуудас build үеэр бүрэн statically үүснэ
 
 const fallbackPhoto = 'https://placehold.co/600x400?text=No+Photo';
 
@@ -10,10 +12,13 @@ type Props = { params: { slug: string } };
 
 export default async function YellowBookDetail({ params }: Props) {
   try {
-    const item = await fetchYellowBook(params.slug);
+    const item = await fetchYellowBook(params.slug, {
+      cache: 'force-cache',
+      tags: [YELLOW_BOOKS_TAG],
+    });
 
-    const center = `${item.location.lat},${item.location.lng}`;
-    const osmSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${item.location.lng - 0.01}%2C${item.location.lat - 0.01}%2C${item.location.lng + 0.01}%2C${item.location.lat + 0.01}&layer=mapnik&marker=${center}`;
+    // const center = `${item.location.lat},${item.location.lng}`;
+    // const osmSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${item.location.lng - 0.01}%2C${item.location.lat - 0.01}%2C${item.location.lng + 0.01}%2C${item.location.lat + 0.01}&layer=mapnik&marker=${center}`;
 
     return (
       <main className="max-w-3xl mx-auto p-6">
@@ -67,8 +72,8 @@ export default async function YellowBookDetail({ params }: Props) {
           <p className="text-sm text-gray-700">{item.description ?? '—'}</p>
         </section>
 
-        {/* Map island */}
-        <section aria-labelledby="map" className="mt-6">
+        {/* Map */}
+        {/* <section aria-labelledby="map" className="mt-6">
           <h2 id="map" className="font-semibold">
             Байршил (Map)
           </h2>
@@ -81,7 +86,7 @@ export default async function YellowBookDetail({ params }: Props) {
               aria-label="Business location on map"
             />
           </div>
-        </section>
+        </section> */}
 
         {/* Photos */}
         {item.photos && item.photos.length > 0 && (
@@ -113,4 +118,14 @@ export default async function YellowBookDetail({ params }: Props) {
   } catch {
     notFound();
   }
+}
+
+// generateStaticParams нь detail page -үүдийг prebuild хийгээд list -ийг cache хийнэ
+export async function generateStaticParams() {
+  const list = await fetchYellowBooks({
+    cache: 'force-cache',
+    tags: [YELLOW_BOOKS_TAG],
+  });
+
+  return list.map((item) => ({ slug: item.slug }));
 }

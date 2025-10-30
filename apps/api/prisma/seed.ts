@@ -6,7 +6,7 @@ async function main() {
     {
       slug: 'coffee-house-sbd',
       name: 'Coffee House SBD',
-      description: 'Specialty coffee in Sukhbaatar district.',
+      description: 'Specialty coffee in Sukhbaatar district. туршилт - revalidation ',
       category: Category.cafe,
       city: 'Ulaanbaatar',
       district: 'Sukhbaatar',
@@ -86,7 +86,9 @@ async function main() {
       lng: 106.953,
       contacts: { phone: '+976 88007766', facebook: 'https://facebook.com/fitzoneub' },
       hours: [{ day: 'Sat', open: '08:00', close: '22:00' }],
-      photos: ['https://example.com/gym-1.jpg'],
+      photos: [
+        'https://thumbs.dreamstime.com/b/cute-cat-practicing-weightlifting-gym-muscular-flexes-body-building-healthy-lifestyle-movement-activity-action-concept-354795593.jpg',
+      ],
       rating: 4.3,
       reviewCount: 97,
       priceLevel: PriceLevel.MODERATE,

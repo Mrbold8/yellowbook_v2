@@ -95,10 +95,11 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <form className="w-full max-w-xl">
+          <form action="/yellow-books/search" method="get" className="w-full max-w-xl">
             <div className="flex items-center gap-2 rounded-full border border-neutral-200 bg-white p-3 shadow-sm focus-within:border-black focus-within:ring-2 focus-within:ring-neutral-900/10">
               <input
                 type="search"
+                name="q"
                 placeholder="Хайх..."
                 className="flex-1 rounded-full border-0 bg-transparent px-3 py-2 text-sm outline-none"
                 aria-label="Бизнес хайх"
@@ -116,12 +117,12 @@ export default async function HomePage() {
           <ul className="flex flex-wrap justify-center gap-3 text-sm text-neutral-700">
             {categories.map((category) => (
               <li key={category}>
-                <button
-                  type="button"
+                <Link
+                  href={`/yellow-books/search?category=${encodeURIComponent(category)}`}
                   className="rounded-full bg-neutral-100 px-4 py-2 transition hover:bg-neutral-200"
                 >
                   {category}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>

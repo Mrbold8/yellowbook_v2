@@ -1,9 +1,6 @@
-//@ts-check
-const { composePlugins, withNx } = require('@nx/next');
+import { composePlugins, withNx } from '@nx/next';
 
-/**
- * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
- **/
+/** @type {import('@nx/next/plugins/with-nx').WithNxOptions} */
 const nextConfig = {
   // Use this to set Nx-specific options
   // See: https://nx.dev/recipes/next/next-config-setup
@@ -23,4 +20,4 @@ const plugins = [
   withNx,
 ];
 
-module.exports = composePlugins(...plugins)(nextConfig);
+export default composePlugins(...plugins)(nextConfig);
